@@ -23,11 +23,13 @@ echo $SLAVE_SECRET > /var/smokeping/secret.txt
 
 # Make sure the secret and cache are available to Smokeping
 chmod 600 /var/smokeping/secret.txt
+chmod 600 /var/log/smokeping.log
+chown smokeping:root /var/log/smokeping.log
 chown smokeping:root /var/smokeping/secret.txt
 chown smokeping:root /usr/cache/smokeping
 
 echo "Starting Smokeping slave..."
-smokeping --master-url=$MASTER_URL --cache-dir=/usr/cache/smokeping --shared-secret=/var/smokeping/secret.txt --slave-name=$SLAVE_NAME
+smokeping --master-url=$MASTER_URL --cache-dir=/usr/cache/smokeping --shared-secret=/var/smokeping/secret.txt --slave-name=$SLAVE_NAME --logfile=/var/log/smokeping.log
 
 # Check the exit status of Smokeping
 if [ $? -ne 0 ]; then
